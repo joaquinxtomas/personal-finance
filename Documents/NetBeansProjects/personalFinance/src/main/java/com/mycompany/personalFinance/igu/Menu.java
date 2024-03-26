@@ -1,26 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.personalFinance.igu;
 
 import com.mycompany.personalFinance.logic.Controller;
 import com.mycompany.personalFinance.logic.Operation;
 import com.mycompany.personalFinance.logic.User;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.RowFilter;
-import javax.swing.RowSorter;
-import javax.swing.event.RowSorterEvent;
-import javax.swing.event.RowSorterListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 
 public class Menu extends javax.swing.JFrame {
 
@@ -45,11 +35,12 @@ public class Menu extends javax.swing.JFrame {
         welcomeLabel = new javax.swing.JLabel();
         sentAmount = new javax.swing.JLabel();
         totalReceived = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        refreshBtn = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         totalField = new javax.swing.JLabel();
         categoryFilter = new javax.swing.JComboBox<>();
         typeFilter = new javax.swing.JComboBox<>();
+        dateFilter = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -60,6 +51,7 @@ public class Menu extends javax.swing.JFrame {
 
         operationsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {},
                 {},
                 {},
                 {},
@@ -90,24 +82,26 @@ public class Menu extends javax.swing.JFrame {
         welcomeLabel.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         welcomeLabel.setText("Bienvenido, !");
 
-        sentAmount.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        sentAmount.setForeground(new java.awt.Color(204, 0, 0));
+        sentAmount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         sentAmount.setText("jLabel1");
 
-        totalReceived.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        totalReceived.setForeground(new java.awt.Color(51, 153, 0));
+        totalReceived.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         totalReceived.setText("jLabel1");
 
-        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Desktop\\Refresh_icon.svg.png")); // NOI18N
-        jButton1.setSelectedIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Desktop\\Refresh_icon.svg.png")); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        refreshBtn.setIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Desktop\\Refresh_icon.svg.png")); // NOI18N
+        refreshBtn.setSelectedIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Desktop\\Refresh_icon.svg.png")); // NOI18N
+        refreshBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                refreshBtnActionPerformed(evt);
             }
         });
 
         jSeparator2.setForeground(new java.awt.Color(153, 153, 153));
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        totalField.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        totalField.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         totalField.setText("jLabel1");
 
         categoryFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Comida", "Servicios", "All" }));
@@ -129,85 +123,98 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
+        dateFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Enero", "Febrero", "Marzo" }));
+        dateFilter.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                dateFilterItemStateChanged(evt);
+            }
+        });
+        dateFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateFilterActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(217, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(deleteBtn)
-                                .addGap(18, 18, 18)
-                                .addComponent(newOperationBtn)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(sentAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(totalReceived, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(totalField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(typeFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(categoryFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(sentAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(totalReceived, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(totalField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(dateFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(categoryFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(255, 255, 255)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(typeFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(deleteBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(newOperationBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                                .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(welcomeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(12, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
+                            .addComponent(refreshBtn)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(deleteBtn)
                                 .addComponent(newOperationBtn)))
-                        .addGap(5, 5, 5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(categoryFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(typeFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jSeparator2)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE))
-                .addGap(12, 12, 12)
+                            .addComponent(dateFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(typeFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(welcomeLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sentAmount)
                     .addComponent(totalReceived)
-                    .addComponent(totalField)))
+                    .addComponent(totalField))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -218,19 +225,21 @@ public class Menu extends javax.swing.JFrame {
 
         welcomeLabel.setText("Bienvenido, " + name + "!");
 
-        loadTable();
+        categoryFilter.setSelectedItem("All");
+        typeFilter.setSelectedItem("All");
+        loadTable(categoryFilter.getSelectedItem().toString(), typeFilter.getSelectedItem().toString(), dateFilter.getSelectedItem().toString());
 
     }//GEN-LAST:event_formWindowOpened
 
     private void newOperationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newOperationBtnActionPerformed
-        NewOperation nOperation = new NewOperation(control);
+        NewOperation nOperation = new NewOperation(control, validateUser);
         nOperation.setVisible(true);
         nOperation.setLocationRelativeTo(null);
     }//GEN-LAST:event_newOperationBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        loadTable();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
+        loadTable("All", "All", "All");
+    }//GEN-LAST:event_refreshBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         if (operationsTable.getRowCount() > 0) {
@@ -240,27 +249,45 @@ public class Menu extends javax.swing.JFrame {
                 if (option == JOptionPane.YES_OPTION) {
                     control.deleteOperation(idOp);
                     JOptionPane.showMessageDialog(null, "El movimiento se borró de manera exitosa.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    loadTable();
+                    loadTable("All", "All", "All");
                 }
             }
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void categoryFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_categoryFilterItemStateChanged
-        filterTable(categoryFilter.getSelectedItem().toString(), typeFilter.getSelectedItem().toString());
+        String catFilter = (String) categoryFilter.getSelectedItem();
+        String typFilter = (String) typeFilter.getSelectedItem();
+        String monthFilter = (String) dateFilter.getSelectedItem();
+        loadTable(catFilter, typFilter, monthFilter);
     }//GEN-LAST:event_categoryFilterItemStateChanged
 
     private void typeFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_typeFilterItemStateChanged
-        filterTable(categoryFilter.getSelectedItem().toString(), typeFilter.getSelectedItem().toString());
+        String catFilter = (String) categoryFilter.getSelectedItem();
+        String typFilter = (String) typeFilter.getSelectedItem();
+        String monthFilter = (String) dateFilter.getSelectedItem();
+        loadTable(catFilter, typFilter, monthFilter);
     }//GEN-LAST:event_typeFilterItemStateChanged
+
 
     private void categoryFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryFilterActionPerformed
         //filterTable(categoryFilter.getSelectedItem().toString(), typeFilter.getSelectedItem().toString());
     }//GEN-LAST:event_categoryFilterActionPerformed
 
+    private void dateFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateFilterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dateFilterActionPerformed
+
+    private void dateFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_dateFilterItemStateChanged
+        String catFilter = (String) categoryFilter.getSelectedItem();
+        String typFilter = (String) typeFilter.getSelectedItem();
+        String monthFilter = (String) dateFilter.getSelectedItem();
+        loadTable(catFilter, typFilter, monthFilter);
+    }//GEN-LAST:event_dateFilterItemStateChanged
+
     DefaultTableModel tableModel;
 
-    private void loadTable() {
+    public void loadTable(String filter1, String filter2, String filterMonth) {
         tableModel = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -268,31 +295,37 @@ public class Menu extends javax.swing.JFrame {
             }
         };
 
-        String titles[] = {"id_op", "Fecha", "Monto", "Descripcion", "Tipo", "Categoría"};
+        String titles[] = {"Fecha", "Monto", "Descripcion", "Tipo", "Categoría"};
         tableModel.setColumnIdentifiers(titles);
-
-        String selectedCategory = (String) categoryFilter.getSelectedItem();
-        String selectedType = (String) typeFilter.getSelectedItem();
 
         List<Operation> operationList = control.getOperations();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
+        boolean hasResult = false;
 
         for (Operation operation : operationList) {
             if (operation.getUser().getId() == validateUser.getId()) {
                 String formattedDate = dateFormat.format(operation.getDate());
+                String[] dateParts = formattedDate.split("/");
+                int operationMonth = Integer.parseInt(dateParts[1]);
 
-                Object[] rowData = {operation.getId(), formattedDate, operation.getAmount(), operation.getDescr(), operation.getType(), operation.getCategory()};
-                tableModel.addRow(rowData);
+                Object[] rowData = {formattedDate, operation.getAmount(), operation.getDescr(), operation.getType(), operation.getCategory()};
+
+                boolean filterMatch1 = filter1.equals("All") || operation.getCategory().equals(filter1);
+                boolean filterMatch2 = filter2.equals("All") || operation.getType().equals(filter2);
+                boolean filterMatchMonth = filterMonth.equals("All") || operationMonth == getMonth(filterMonth);
+                if (filterMatch1 && filterMatch2 && filterMatchMonth) {
+                    tableModel.addRow(rowData);
+                }
 
             }
         }
-
         operationsTable.setModel(tableModel);
+        calcTotal();
     }
 
     private void calcTotal() {
-        int amountColumn = 2;
-        int typeColumn = 4;
+        int amountColumn = 1;
+        int typeColumn = 3;
         Double totalSent = 0.0;
         Double totalRec = 0.0;
         for (int i = 0; i < tableModel.getRowCount(); i++) {
@@ -313,35 +346,27 @@ public class Menu extends javax.swing.JFrame {
         totalField.setText("Total: " + "$" + String.valueOf(totalRec + totalSent));
     }
 
-    private void filterTable(String queryCat, String queryType) {
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
-        operationsTable.setRowSorter(sorter);
+    private int getMonth(String month) {
+        String[] names = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 
-        List<RowFilter<Object, Object>> filters = new ArrayList<>();
-        if (!queryCat.equals("All")) {
-            filters.add(RowFilter.regexFilter(queryCat, 5));
+        for (int i = 0; i < names.length; i++) {
+            if (names[i] == month) {
+                return i + 1;
+            }
         }
-
-        if (!queryType.equals("All")) {
-            filters.add(RowFilter.regexFilter(queryType, 4));
-        }
-
-        RowFilter<Object, Object> combinedFilters = RowFilter.andFilter(filters);
-        sorter.setRowFilter(combinedFilters);
-
-
+        return 0;
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> categoryFilter;
+    private javax.swing.JComboBox<String> dateFilter;
     private javax.swing.JButton deleteBtn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JButton newOperationBtn;
     private javax.swing.JTable operationsTable;
+    private javax.swing.JButton refreshBtn;
     private javax.swing.JLabel sentAmount;
     private javax.swing.JLabel totalField;
     private javax.swing.JLabel totalReceived;

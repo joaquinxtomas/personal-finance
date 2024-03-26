@@ -6,8 +6,8 @@ package com.mycompany.personalFinance.igu;
 
 import com.mycompany.personalFinance.logic.Controller;
 import com.mycompany.personalFinance.logic.Operation;
+import com.mycompany.personalFinance.logic.User;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -15,16 +15,14 @@ import java.util.Set;
 import javax.swing.JOptionPane;
 
 
-/**
- *
- * @author Usuario
- */
+
 public class NewOperation extends javax.swing.JFrame {
     Controller control;
-
-    public NewOperation(Controller control) {
+    User validateUser;
+    public NewOperation(Controller control, User validateUser) {
         initComponents();
         this.control = control;
+        this.validateUser = validateUser;
     }
 
 
@@ -234,7 +232,6 @@ public class NewOperation extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
     
     
-    
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         String desc = descriptionField.getText();
         Object selectedItem = typeCmb.getSelectedItem();
@@ -254,6 +251,8 @@ public class NewOperation extends javax.swing.JFrame {
         
         control.createOp(desc,type,category,amount,selectedDate);
         this.dispose();
+
+        
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

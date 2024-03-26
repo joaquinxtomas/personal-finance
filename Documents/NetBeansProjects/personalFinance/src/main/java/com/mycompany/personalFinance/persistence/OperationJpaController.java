@@ -1,4 +1,3 @@
-
 package com.mycompany.personalFinance.persistence;
 
 import com.mycompany.personalFinance.logic.Operation;
@@ -15,17 +14,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-
 public class OperationJpaController implements Serializable {
 
     public OperationJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    
-    public OperationJpaController(){
+
+    public OperationJpaController() {
         emf = Persistence.createEntityManagerFactory("financePU");
     }
-    
+
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
@@ -169,5 +167,5 @@ public class OperationJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
