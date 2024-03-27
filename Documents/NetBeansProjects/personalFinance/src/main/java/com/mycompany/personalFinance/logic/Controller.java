@@ -62,6 +62,10 @@ public class Controller {
         pControl.deleteOp(idOp);
     }
 
+    public List<User> getUsers() {
+        return pControl.getUsers();
+    }
+
 
     
 }
