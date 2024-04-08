@@ -1,6 +1,8 @@
 
 package com.mycompany.personalFinance.logic;
 
+import com.poiji.annotation.ExcelCell;
+import com.poiji.annotation.ExcelSheet;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -14,17 +16,21 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@ExcelSheet("Sheet0")
 public class Operation implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id;
     @Basic
+    @ExcelCell(1)
     private String descr;
     private String type;
     private String category;
+    @ExcelCell(4)
     private Double amount;
     
     @Temporal(TemporalType.DATE)
+    @ExcelCell(0)
     private Date date;
     
     @ManyToOne
@@ -98,6 +104,11 @@ public class Operation implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "Operation{" + "id=" + id + ", descr=" + descr + ", type=" + type + ", category=" + category + ", amount=" + amount + ", date=" + date + ", user=" + user + '}';
     }
     
 }

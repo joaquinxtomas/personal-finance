@@ -200,10 +200,9 @@ public class Register extends javax.swing.JFrame {
             for (User user : userList) {
                 if(user.getEmail().equals(email)){
                     return null;
-                } else {
-                    return email;
-                }
+                } 
             }
+            return email;
         }
         return null;
     }
