@@ -5,8 +5,10 @@ import com.mycompany.personalFinance.logic.Operation;
 import com.mycompany.personalFinance.logic.User;
 import com.poiji.bind.Poiji;
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -43,6 +45,7 @@ public class Menu extends javax.swing.JFrame {
         typeFilter = new javax.swing.JComboBox<>();
         dateFilter = new javax.swing.JComboBox<>();
         mpImport = new javax.swing.JButton();
+        yearFilter = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -125,7 +128,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        dateFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Enero", "Febrero", "Marzo" }));
+        dateFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
         dateFilter.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 dateFilterItemStateChanged(evt);
@@ -137,10 +140,25 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        mpImport.setText("jButton1");
+        mpImport.setBackground(new java.awt.Color(0, 187, 254));
+        mpImport.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        mpImport.setForeground(new java.awt.Color(255, 255, 255));
+        mpImport.setText("Importar desde MP");
         mpImport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mpImportActionPerformed(evt);
+            }
+        });
+
+        yearFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2024", "2023" }));
+        yearFilter.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                yearFilterItemStateChanged(evt);
+            }
+        });
+        yearFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yearFilterActionPerformed(evt);
             }
         });
 
@@ -150,7 +168,7 @@ public class Menu extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(255, 255, 255)
@@ -165,9 +183,9 @@ public class Menu extends javax.swing.JFrame {
                                 .addComponent(newOperationBtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                                 .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(mpImport)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(mpImport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -180,6 +198,8 @@ public class Menu extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(dateFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(yearFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(categoryFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
@@ -199,14 +219,15 @@ public class Menu extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(categoryFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dateFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(typeFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(typeFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(yearFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(welcomeLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(mpImport))
+                    .addComponent(mpImport, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sentAmount)
@@ -239,7 +260,7 @@ public class Menu extends javax.swing.JFrame {
 
         categoryFilter.setSelectedItem("All");
         typeFilter.setSelectedItem("All");
-        loadTable(categoryFilter.getSelectedItem().toString(), typeFilter.getSelectedItem().toString(), dateFilter.getSelectedItem().toString());
+        loadTable(categoryFilter.getSelectedItem().toString(), typeFilter.getSelectedItem().toString(), dateFilter.getSelectedItem().toString(), yearFilter.getSelectedItem().toString());
 
     }//GEN-LAST:event_formWindowOpened
 
@@ -250,7 +271,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_newOperationBtnActionPerformed
 
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
-        loadTable("All", "All", "All");
+        loadTable("All", "All", "All",yearFilter.getSelectedItem().toString());
     }//GEN-LAST:event_refreshBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
@@ -261,7 +282,7 @@ public class Menu extends javax.swing.JFrame {
                 if (option == JOptionPane.YES_OPTION) {
                     control.deleteOperation(idOp);
                     JOptionPane.showMessageDialog(null, "El movimiento se borró de manera exitosa.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    loadTable("All", "All", "All");
+                    loadTable("All", "All", "All","2024");
                 }
             }
         }
@@ -271,14 +292,16 @@ public class Menu extends javax.swing.JFrame {
         String catFilter = (String) categoryFilter.getSelectedItem();
         String typFilter = (String) typeFilter.getSelectedItem();
         String monthFilter = (String) dateFilter.getSelectedItem();
-        loadTable(catFilter, typFilter, monthFilter);
+        String yrFilter = (String) yearFilter.getSelectedItem();
+        loadTable(catFilter, typFilter, monthFilter, yrFilter);
     }//GEN-LAST:event_categoryFilterItemStateChanged
 
     private void typeFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_typeFilterItemStateChanged
         String catFilter = (String) categoryFilter.getSelectedItem();
         String typFilter = (String) typeFilter.getSelectedItem();
         String monthFilter = (String) dateFilter.getSelectedItem();
-        loadTable(catFilter, typFilter, monthFilter);
+        String yrFilter = (String) yearFilter.getSelectedItem();
+        loadTable(catFilter, typFilter, monthFilter, yrFilter);
     }//GEN-LAST:event_typeFilterItemStateChanged
 
 
@@ -294,41 +317,56 @@ public class Menu extends javax.swing.JFrame {
         String catFilter = (String) categoryFilter.getSelectedItem();
         String typFilter = (String) typeFilter.getSelectedItem();
         String monthFilter = (String) dateFilter.getSelectedItem();
-        loadTable(catFilter, typFilter, monthFilter);
+        String yrFilter = String.valueOf(yearFilter.getSelectedItem());
+        loadTable(catFilter, typFilter, monthFilter, yrFilter);
     }//GEN-LAST:event_dateFilterItemStateChanged
 
+    
     private void mpImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mpImportActionPerformed
         File file = null;
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos XLSX", "xlsx");
         fileChooser.setFileFilter(filter);
         int result = fileChooser.showOpenDialog(jPanel1);
-        if(result == JFileChooser.APPROVE_OPTION){
+        if (result == JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
         }
         List<Operation> operations = Poiji.fromExcel(file, Operation.class);
         for (Operation operation : operations) {
-            if(operation.getType() == null){
-                operation.setType("random");
+            if (operation.getAmount() < 0) {
+                operation.setType("Egreso");
+            } else {
+                operation.setType("Ingreso");
             }
             
             if(operation.getCategory() == null){
-                operation.setCategory("random");
+                operation.setCategory("Operación MP");
             }
             
-            
-            control.createOp(operation.getDescr(), operation.getType(), operation.getCategory(), operation.getAmount(), operation.getDate());
+            String dateStr = operation.getDate();
+            String editedDate = dateStr.substring(0,10);
+            System.out.println(editedDate);
+
+            control.createOp(operation.getDescr(), operation.getType(), operation.getCategory(), operation.getAmount(), editedDate);
         }
     }//GEN-LAST:event_mpImportActionPerformed
 
-    private void leerXlsx(File filename) {
-        List cellData = new ArrayList();
-        
-    }
-    
+    private void yearFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_yearFilterItemStateChanged
+        String catFilter = (String) categoryFilter.getSelectedItem();
+        String typFilter = (String) typeFilter.getSelectedItem();
+        String monthFilter = (String) dateFilter.getSelectedItem();
+        String yrFilter = String.valueOf(yearFilter.getSelectedItem());
+        loadTable(catFilter, typFilter, monthFilter, yrFilter);
+    }//GEN-LAST:event_yearFilterItemStateChanged
+
+    private void yearFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearFilterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_yearFilterActionPerformed
+
+
     DefaultTableModel tableModel;
 
-    public void loadTable(String filter1, String filter2, String filterMonth) {
+    public void loadTable(String filter1, String filter2, String filterMonth, String filterYear) {
         tableModel = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -340,24 +378,27 @@ public class Menu extends javax.swing.JFrame {
         tableModel.setColumnIdentifiers(titles);
 
         List<Operation> operationList = control.getOperations();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
         boolean hasResult = false;
 
         for (Operation operation : operationList) {
             if (operation.getUser().getId() == validateUser.getId()) {
-                String formattedDate = dateFormat.format(operation.getDate());
-                String[] dateParts = formattedDate.split("/");
-                int operationMonth = Integer.parseInt(dateParts[1]);
 
-                Object[] rowData = {formattedDate, operation.getAmount(), operation.getDescr(), operation.getType(), operation.getCategory()};
+                Object[] rowData = {operation.getDate(), operation.getAmount(), operation.getDescr(), operation.getType(), operation.getCategory()};
+                
+                String strMonth = operation.getDate().substring(5, 7);
+                Integer operationDate = Integer.parseInt(strMonth);
+                
+                String strYear = operation.getDate().substring(0,4);
+                String selectedYear = String.valueOf(yearFilter.getSelectedItem());
 
                 boolean filterMatch1 = filter1.equals("All") || operation.getCategory().equals(filter1);
                 boolean filterMatch2 = filter2.equals("All") || operation.getType().equals(filter2);
-                boolean filterMatchMonth = filterMonth.equals("All") || operationMonth == getMonth(filterMonth);
-                if (filterMatch1 && filterMatch2 && filterMatchMonth) {
+                boolean filterMatchMonth = filterMonth.equals("All") || operationDate == getMonth(filterMonth);
+                boolean filterMatchYear = strYear.equals(selectedYear);
+                if (filterMatch1 && filterMatch2 && filterMatchMonth && filterMatchYear) {
                     tableModel.addRow(rowData);
                 }
-
+               
             }
         }
         operationsTable.setModel(tableModel);
@@ -382,16 +423,22 @@ public class Menu extends javax.swing.JFrame {
             }
 
         }
-        totalReceived.setText("Ingreso: " + "$" + String.valueOf(totalRec));
-        sentAmount.setText("Gastado: " + "$" + String.valueOf(totalSent));
-        totalField.setText("Total: " + "$" + String.valueOf(totalRec + totalSent));
+        
+        String formattedIn = String.format("%.2f", totalRec);
+        String formattedOut = String.format("%.2f", totalSent);
+        String formattedTotal = String.format("%.2f", totalRec + totalSent);
+        
+        totalReceived.setText("Ingreso: " + "$" + formattedIn);
+        sentAmount.setText("Gastado: " + "$" + formattedOut);
+        totalField.setText("Total: " + "$" + formattedTotal);
     }
 
     private int getMonth(String month) {
         String[] names = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        
 
         for (int i = 0; i < names.length; i++) {
-            if (names[i] == month) {
+            if (names[i].equals(month)) {
                 return i + 1;
             }
         }
@@ -414,5 +461,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel totalReceived;
     private javax.swing.JComboBox<String> typeFilter;
     private javax.swing.JLabel welcomeLabel;
+    private javax.swing.JComboBox<String> yearFilter;
     // End of variables declaration//GEN-END:variables
 }

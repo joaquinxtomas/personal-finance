@@ -29,9 +29,8 @@ public class Operation implements Serializable {
     @ExcelCell(4)
     private Double amount;
     
-    @Temporal(TemporalType.DATE)
     @ExcelCell(0)
-    private Date date;
+    private String date;
     
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -40,7 +39,7 @@ public class Operation implements Serializable {
     public Operation() {
     }
 
-    public Operation(int id, String descr, String type, String category, Double amount, Date date, User user) {
+    public Operation(int id, String descr, String type, String category, Double amount, String date, User user) {
         this.id = id;
         this.descr = descr;
         this.type = type;
@@ -74,11 +73,11 @@ public class Operation implements Serializable {
         this.amount = amount;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

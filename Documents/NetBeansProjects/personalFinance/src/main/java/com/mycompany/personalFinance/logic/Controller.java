@@ -33,7 +33,7 @@ public class Controller {
         return pControl.getOperations();
     }
 
-    public void createOp(String descr,String type,String category, Double amount, Date selectedDate) {
+    public void createOp(String descr,String type,String category, Double amount, String selectedDate) {
         Operation op = new Operation();
         op.setAmount(amount);
         op.setDescr(descr);
@@ -43,6 +43,7 @@ public class Controller {
         op.setUser(validUser);
         pControl.createOperation(op);
     }
+    
 
     private int searchId() {
         List<Operation> opList = pControl.getOperations();
@@ -64,6 +65,10 @@ public class Controller {
 
     public List<User> getUsers() {
         return pControl.getUsers();
+    }
+
+    public void createOpImport(String descr, String type, String category, Double amount, Date date) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 

@@ -238,6 +238,7 @@ public class NewOperation extends javax.swing.JFrame {
         String type = selectedItem.toString();
         Object selectedItemCat = categoryCmb.getSelectedItem();
         String category = selectedItemCat.toString();
+        String date = dateField.getText();
         String strAmount = "0";
         if (type.equals("Ingreso")){
             strAmount = amountField.getText();
@@ -246,10 +247,8 @@ public class NewOperation extends javax.swing.JFrame {
         }
 
         Double amount = Double.parseDouble(strAmount);
-        Date selectedDate = jCalendar1.getCalendar().getTime();
-        SimpleDateFormat ff = new SimpleDateFormat("yyyy-MM-dd");   
         
-        control.createOp(desc,type,category,amount,selectedDate);
+        control.createOp(desc,type,category,amount,date);
         this.dispose();
 
         
